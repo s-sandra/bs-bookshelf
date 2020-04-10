@@ -1,0 +1,7 @@
+{
+  "name": "bs-shopper",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react"
+}
