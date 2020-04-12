@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import { IonContent, 
   IonHeader, 
   IonPage, 
@@ -14,13 +14,36 @@ import { scanOutline } from 'ionicons/icons';
 import './Scan.css';
 
 const Scan: React.FC = () => {
+  const [productName, setName] = useState<string>();
+  const productNameRef = useRef<HTMLIonSearchbarElement>(null);
+
+  /**
+   * Query API for product.
+   */
+  const searchProductName = () => {
+    // get the current text in search bar.
+    const product = productNameRef.current!.value;
+
+    // if product name actually entered.
+    if (!product) {
+      return;
+    }
+    setName(product);
+  };
+
+
   return (
     <IonPage>
       <IonHeader>
         <IonToolbar color="primary">
           <IonTitle class="ion-margin">
             <b>BS</b> Shopper
-            <IonSearchbar id="product-name" placeholder="search by product name" class="ion-margin-top"></IonSearchbar>
+            <IonSearchbar ref={productNameRef} 
+                          onKeyPress={searchProductName} 
+                          id="product-name" 
+                          placeholder="search by product name" 
+                          class="ion-margin-top">
+            </IonSearchbar>
           </IonTitle>
         </IonToolbar>
       </IonHeader>
@@ -29,6 +52,7 @@ const Scan: React.FC = () => {
           <IonRow class="ion-justify-content-center">
             <IonCol size="xs">
               <h1 className="ion-text-uppercase">Scan Barcode</h1>
+              {productName && (<h2>{productName}</h2>)}
             </IonCol>
           </IonRow>
           <IonRow class="ion-justify-content-center">

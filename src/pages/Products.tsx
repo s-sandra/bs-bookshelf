@@ -2,21 +2,13 @@ import React from 'react';
 import { IonContent, 
   IonHeader, 
   IonPage, 
-  IonButton, 
   IonTitle,
   IonToolbar, 
   IonSearchbar,
   IonGrid,
   IonCol,
-  IonRow,
-  IonCard,
-  IonCardHeader,
-  IonCardContent,
-  IonCardTitle,
-  IonBadge,
-  IonText, 
-  IonIcon } from '@ionic/react';
-import { scanOutline } from 'ionicons/icons';
+  IonRow } from '@ionic/react';
+import ProductResult from '../components/ProductResult';
 import './Scan.css';
 
 const Products: React.FC = () => {
@@ -34,20 +26,9 @@ const Products: React.FC = () => {
         <IonGrid>
           <IonRow class="ion-justify-content-center">
             <IonCol size="auto">
-                <IonCard>
-                    <IonCardHeader>
-                        <IonBadge color="primary">$13.00</IonBadge>
-                        <IonCardTitle>Product Provider Name</IonCardTitle>
-                    </IonCardHeader>
-                    <IonCardContent>
-                        <IonText>
-                        Product description. Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
-                        sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-                        Ut enim ad minim veniam.
-                        </IonText>
-                    </IonCardContent>
-                    <IonButton color="primary ion-margin">View</IonButton>
-                </IonCard>
+                <ProductResult name="Product Provider Name"
+                            price="13.99"
+                            desc= "Some sort of description for product."/>
             </IonCol>
           </IonRow>
         </IonGrid>
