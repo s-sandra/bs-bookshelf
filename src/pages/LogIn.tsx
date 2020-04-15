@@ -9,6 +9,7 @@ import { IonContent,
   IonRow, 
   IonCol } from '@ionic/react';
 import './LogIn.css';
+import { useFirebase } from '../hooks/useFirebase';
 
 const LogIn: React.FC = () => {
   return (
