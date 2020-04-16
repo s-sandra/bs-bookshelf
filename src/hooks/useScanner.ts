@@ -1,4 +1,3 @@
-import React, { constructor } from 'react';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 
 export function useScanner () {
