@@ -64,6 +64,33 @@ export function useUPCitemdb() {
         });
     };
 
+    const eanLookup = (ean: string) => {
+        // format search phrase for URL
+        const endpoint = `api.upcitemdb.com/prod/trial/lookup?upc=${ean}`;
+        console.log(endpoint);
+
+        const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            hostname: 'api.upcitemdb.com',
+            path: '/prod/trial/lookup' 
+        };
+
+        fetch("https://" + endpoint, requestOptions)
+        .then(res => res.json())
+        .then((result) => {
+            if (+result.code > 400) {
+                console.log(result);
+            }
+            console.log("yay!");
+            //setProductList(offers);
+        },
+        (error) => {
+            console.error(error);
+            return null;
+        });
+    };
+
     // const clearResults = () => {
     //     setProductList([]);
     // };
@@ -79,5 +106,5 @@ export function useUPCitemdb() {
         );
     };
 
-    return {searchProductName, renderResult, Product };
+    return {searchProductName, renderResult, Product, eanLookup };
 };
