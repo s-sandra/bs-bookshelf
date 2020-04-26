@@ -1,6 +1,6 @@
 {
-  "short_name": "Ionic App",
-  "name": "My Ionic App",
+  "short_name": "BS Bookshelf",
+  "name": "Barcode Scan Bookshelf",
   "icons": [
     {
       "src": "assets/icon/favicon.png",
@@ -16,6 +16,6 @@
   ],
   "start_url": ".",
   "display": "standalone",
-  "theme_color": "#ffffff",
+  "theme_color": "#1b6d1f",
   "background_color": "#ffffff"
 }
