@@ -3,20 +3,20 @@ ion-content ion-toolbar {
 }
 
 .banner {
-  font-size: 30px;
+  display: block;
   font-weight: bold;
+  padding-top: 5%;
+  color: white;
+  background: #1b6d1f;
 }
 
-.under {
-  font-size: 60px;
+.banner ion-icon {
+  width: 100%;
+  font-size: 5em;
 }
 
-ion-row:first-child {
-  padding-bottom: 2em;
-}
-
-ion-row:last-child {
-  padding-top: 1em;
+ion-grid{
+  padding: 0;
 }
 
 h3 {

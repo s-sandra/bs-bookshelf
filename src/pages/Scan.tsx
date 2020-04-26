@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-
 import { IonContent, 
   IonHeader, 
   IonPage, 
@@ -16,8 +15,8 @@ import { IonContent,
   IonChip,
   IonFab,
   IonFabButton} from '@ionic/react';
-import './Scan.css';
 import { searchSharp, scanOutline } from 'ionicons/icons';
+import './Scan.css';
 
 import { useScanner } from '../hooks/useScanner';
 import { useGoogleBooks, Book } from '../hooks/useGoogleBooks';
@@ -118,7 +117,7 @@ const Scan: React.FC = () => {
               </IonButton>
             </IonChip>
         }
-        {isbn || books &&
+        {(isbn || books) &&
         <IonGrid fixed>
           { isbn && 
             <IonRow class='ion-justify-content-center'>

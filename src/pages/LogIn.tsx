@@ -1,16 +1,15 @@
 import React from 'react';
 import { IonContent, 
-  IonHeader, 
   IonPage, 
   IonTitle, 
-  IonToolbar, 
   IonButton,
   IonGrid, 
   IonRow, 
   IonCol,
-  IonIcon } from '@ionic/react';
+  IonIcon, 
+  IonToast} from '@ionic/react';
 import './LogIn.css';
-import { logoGoogle } from 'ionicons/icons';
+import { logoGoogle, book } from 'ionicons/icons';
 
 import { useFirebase } from '../hooks/useFirebase';
 import * as firebase from 'firebase';
@@ -19,28 +18,36 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 
 const LogIn: React.FC = () => {
   const { googleSignIn, googleSignOut } = useFirebase();
-  const [ user ] = useAuthState(firebase.auth());
+  const [ user, loading ] = useAuthState(firebase.auth());
 
   return (
     <IonPage>
 
-      <IonHeader>
-        <IonToolbar color='primary'>
-          <IonTitle class='ion-text-center ion-text-uppercase banner ion-margin-bottom'>Barcode Scan</IonTitle>
-        </IonToolbar>
-      </IonHeader>
+      <IonToast
+        isOpen={loading}
+        position='top'
+        message='Signing you in...'
+        duration={3000}
+        color='light'
+      />
 
       <IonContent>
         <IonGrid>
-          <IonRow class='ion-justify-content-center'>
-            <IonCol size='xs'>
-              <IonTitle color='primary' class='under banner'>Bookshelf</IonTitle>
+          <IonRow class='banner padding-top'>
+            <IonCol>
+              <IonIcon icon={book}/>
+              <IonTitle class='ion-text-center'>Barcode Scan</IonTitle>
             </IonCol>
           </IonRow>
-          <IonRow class='ion-justify-content-center ion-text-center'>
+          <IonRow class='ion-justify-content-center ion-margin-bottom'>
+            <IonCol size='xs'>
+              <IonTitle color='primary'>Bookshelf</IonTitle>
+            </IonCol>
+          </IonRow>
+          <IonRow class='ion-justify-content-center ion-text-center ion-margin-bottom'>
             <IonCol size='xs'>
               <h3>Search for Google Books</h3>
-              <h4 color='primary'>by Name or ISBN</h4>
+              <h4 color='primary'>by Title or ISBN</h4>
             </IonCol>
           </IonRow>
           <IonRow class='ion-justify-content-center'>

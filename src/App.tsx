@@ -7,8 +7,9 @@ import {
   IonTabBar,
   IonTabButton,
   IonTabs,
-  IonChip,
-  IonAvatar
+  IonAvatar,
+  IonIcon,
+  IonItem
 } from '@ionic/react';
 
 import { IonReactRouter } from '@ionic/react-router';
@@ -17,7 +18,6 @@ import LogIn from './pages/LogIn';
 
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { environment } from './environment/environment';
-import { useFirebase } from './hooks/useFirebase';
 import * as firebase from 'firebase';
 
 /* Core CSS required for Ionic components to work properly */
@@ -38,6 +38,7 @@ import '@ionic/react/css/display.css';
 
 /* Theme variables */
 import './theme/variables.css';
+import { scan, logoGoogle } from 'ionicons/icons';
 
 firebase.initializeApp(environment.firebaseConfig);
 
@@ -56,18 +57,20 @@ const App: React.FC = () => {
           </IonRouterOutlet>
           <IonTabBar slot='top' color='primary'>
             <IonTabButton tab='Scan' href='/scan'>
+              <IonIcon icon={scan}/>
               <IonLabel>Scan</IonLabel>
             </IonTabButton>}
             <IonTabButton tab='LogOut' href='/login'>
+              <IonIcon icon={logoGoogle}/>
               <IonLabel>{user ? 'Sign Out' : 'Sign In'}</IonLabel>
             </IonTabButton>
             { user && 
                 <IonTabButton tab='LogOut' href='/'>
-                  <IonChip>
+                  <IonItem color='primary'>
                     <IonAvatar>
                       <img src={user.photoURL!} alt='Google avatar'/>
                     </IonAvatar>
-                  </IonChip>
+                  </IonItem>
                 </IonTabButton>
             }
           </IonTabBar>

@@ -6,10 +6,8 @@ ion-title {
   font-size: 40px;
 }
 
-BookResult {
+ion-grid ion-card {
   width: 20em;
-  height: 164px;
-  text-align: center;
 }
 
 #instruction {
@@ -37,9 +35,4 @@ ion-content ion-chip {
 
 ion-chip ion-label {
   width: 100%;
-}
-
-ion-toolbar ion-item,
-#instruction {
-  max-width: 1090px;
 }
