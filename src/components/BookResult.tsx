@@ -1,38 +1,36 @@
 import React from 'react';
 import { IonCard, 
     IonCardHeader, 
-    IonCardTitle, 
-    IonCardContent,
-    IonText, 
+    IonCardTitle,  
     IonButton, 
     IonCol,
     IonCardSubtitle,
     IonImg,
     IonChip,
     IonLabel,
-    IonIcon} from '@ionic/react';
+    IonIcon } from '@ionic/react';
 
 import { Book } from '../hooks/useGoogleBooks';
 import  Rating  from './Rating';
-import { logoGoogle, logoGooglePlaystore } from 'ionicons/icons';
+import { logoGoogle, logoGooglePlaystore, bookOutline } from 'ionicons/icons';
 
 const BookResult: React.FC<{
     book: Book; 
 }> = (props) => {
     return (
         <IonCol>
-            <IonCard>
+            <IonCard class='book-result'>
                 { props.book.image && <IonImg src={props.book.image} alt={`${props.book.title} book cover`}/> }
                 { !props.book.image && 
                     <IonChip>
-                        <IonLabel>No Image Available</IonLabel>
+                        <IonLabel><IonIcon icon={bookOutline}/></IonLabel>
                     </IonChip>}
                 <IonCardHeader>
                     { props.book.rating && <Rating stars={props.book.rating}/> }
                     <IonCardTitle>{props.book.title}</IonCardTitle>
                     <IonCardSubtitle>
                         {props.book.authors ? props.book.authors.join(', ') : 'No Author'}<br></br>
-                        {props.book.publisher? `${props.book.publisher}, ` : 'No Publisher, '}
+                        {props.book.publisher? `${props.book.publisher} ` : 'No Publisher '}
                         {props.book.date ? `(${props.book.date})` : ' No Date'}
                     </IonCardSubtitle>
                 </IonCardHeader>

@@ -43,7 +43,6 @@ firebase.initializeApp(environment.firebaseConfig);
 
 const App: React.FC = () => {
   const [ user ] = useAuthState(firebase.auth());
-  const { googleSignOut, googleSignIn } = useFirebase();
   
   return (
     <IonApp>
@@ -59,7 +58,7 @@ const App: React.FC = () => {
             <IonTabButton tab='Scan' href='/scan'>
               <IonLabel>Scan</IonLabel>
             </IonTabButton>}
-            <IonTabButton tab='LogOut' onClick={user ? googleSignOut : googleSignIn} href='/login'>
+            <IonTabButton tab='LogOut' href='/login'>
               <IonLabel>{user ? 'Sign Out' : 'Sign In'}</IonLabel>
             </IonTabButton>
             { user && 

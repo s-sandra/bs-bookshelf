@@ -11,9 +11,13 @@ import { IonContent,
   IonToolbar,
   IonTitle,
   IonItem,
-  IonSearchbar,
-  IonFooter} from '@ionic/react';
+  IonInput,
+  IonIcon, 
+  IonChip,
+  IonFab,
+  IonFabButton} from '@ionic/react';
 import './Scan.css';
+import { searchSharp, scanOutline } from 'ionicons/icons';
 
 import { useScanner } from '../hooks/useScanner';
 import { useGoogleBooks, Book } from '../hooks/useGoogleBooks';
@@ -68,68 +72,85 @@ const Scan: React.FC = () => {
 
   return (
     <IonPage>
+
       <IonHeader>
         <IonToolbar color='primary'>
-            <IonTitle class='ion-margin'>
+            <IonTitle>
               <b>BS</b> BookShelf
-              <IonItem color='primary'>
-                <IonSearchbar
+              </IonTitle>
+              <IonItem class='ion-margin'>
+                <IonInput
                     value={bookTitle}
-                    id='product-name' 
+                    id='searchbar' 
                     placeholder='search by book title' 
-                    class='ion-margin-top'
                     onIonChange={searchPhrase => setBookTitle(searchPhrase.detail.value!)}
                 />
-                <IonButton slot='end' onClick={() => {search(bookTitle)}}>Go</IonButton>
+                <IonButton slot='start' onClick={() => {search(bookTitle)}}>
+                  <IonIcon icon={searchSharp}/>
+                </IonButton>
               </IonItem>
-            </IonTitle>
           </IonToolbar>
       </IonHeader>
-      <IonContent class='ion-padding'>
-        <IonGrid>
-          <IonRow class='ion-justify-content-center'>
-            <IonCol size='xs'>
-                <IonAlert 
-                  isOpen={!!error}
-                  message={'Oops! ' + error + '. Try our Android app or search by book title.'}
-                  buttons={[
-                    {
-                      text: 'close',
-                      handler: clearISBN
-                    },
-                    {
-                      text: 'scan again', 
-                      handler: scan
-                    }
-                  ]}
-                />
-                { isbn && <h1>ISBN {isbn}</h1> }
-            </IonCol>
-          </IonRow>
-            { books.map(book => { 
-                return (
-                  <React.Fragment key={book.id}>
-                    <IonRow>
-                        <IonCol>
-                          <BookResult book={book}/>
-                        </IonCol>
-                    </IonRow>
-                  </React.Fragment>
-                  
-                ) 
-              })
+
+      <IonAlert 
+          isOpen={!!error}
+          message={'Oops! ' + error + '. Try our Android app or search by book title.'}
+          buttons={[
+            {
+              text: 'close',
+              handler: clearISBN
+            },
+            {
+              text: 'scan again', 
+              handler: scan
             }
+          ]}
+        />
+
+      <IonContent class='ion-padding'>
+
+        { !isbn && !bookTitle && books.length === 0 &&
+            <IonChip id='instruction' class='ionic-justify-center-content ionic-align-items-center'>
+              <IonIcon icon={scanOutline}/>
+              <IonButton 
+                onClick={scan}>
+                Scan Book
+              </IonButton>
+            </IonChip>
+        }
+        {isbn || books &&
+        <IonGrid fixed>
+          { isbn && 
+            <IonRow class='ion-justify-content-center'>
+              <IonCol>
+                  <p>ISBN {isbn}</p>
+              </IonCol>
+            </IonRow>
+          }
+          { books && 
+            <IonRow>
+              { books.map(book => {   
+                  return (
+                    <React.Fragment key={book.id}>
+                      <IonCol size='auto'>
+                        <BookResult book={book}/>
+                      </IonCol>
+                    </React.Fragment>
+                  ) 
+                
+                })
+              }
+            </IonRow>
+          }
         </IonGrid>
+      }
       </IonContent>
-      <IonFooter class='ion-margin'>
-        <IonButton 
-            color='primary' 
-            expand='block' 
-            onClick={scan}>
-          Scan Book
-        </IonButton>
-      </IonFooter>
-      
+
+      <IonFab vertical="bottom" horizontal="start" slot="fixed">
+          <IonFabButton onClick={scan}>
+            <IonIcon icon={scanOutline} />
+          </IonFabButton>
+        </IonFab>
     </IonPage>
   );
 };

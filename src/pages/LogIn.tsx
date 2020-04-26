@@ -7,8 +7,10 @@ import { IonContent,
   IonButton,
   IonGrid, 
   IonRow, 
-  IonCol } from '@ionic/react';
+  IonCol,
+  IonIcon } from '@ionic/react';
 import './LogIn.css';
+import { logoGoogle } from 'ionicons/icons';
 
 import { useFirebase } from '../hooks/useFirebase';
 import * as firebase from 'firebase';
@@ -43,8 +45,12 @@ const LogIn: React.FC = () => {
           </IonRow>
           <IonRow class='ion-justify-content-center'>
             <IonCol size='xs'>
-              { !user && <IonButton color='primary' onClick={googleSignIn}>Sign In With Google</IonButton>}
-              { user && <IonButton color='primary' onClick={googleSignOut}>Sign Out From Google</IonButton>}
+              { !user && <IonButton color='primary' onClick={googleSignIn}>
+                <IonIcon slot='start' icon={logoGoogle}/>
+                Sign In With Google</IonButton>}
+              { user && <IonButton color='primary' onClick={googleSignOut}>
+                <IonIcon slot='start' icon={logoGoogle}/>
+                Sign Out From Google</IonButton>}
             </IonCol>
           </IonRow>
       </IonGrid>
