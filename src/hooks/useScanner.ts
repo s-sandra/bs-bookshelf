@@ -5,7 +5,7 @@ export function useScanner () {
 
     const scanBarcode = async () => {
         if (isPlatform('desktop')) {
-            throw new Error('Barcode scanning is not available on desktop');
+            throw new Error('Barcode scanning is not available on desktop. Try our Android app or search by book title.');
         }
         const data = await BarcodeScanner.scan();
         return data.text;

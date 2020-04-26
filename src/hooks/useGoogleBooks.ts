@@ -6,23 +6,38 @@ export function useGoogleBooks() {
     const key = `&key=${environment.booksApiConfig.browserKey}`;
 
     const searchISBN = async(isbn: string) => {
-        const response = await fetch(`${URI}+isbn:${isbn}${key}`);
-        const json = await response.json();
-        return parseBooks(json);
+        try {
+            const response = await fetch(`${URI}+isbn:${isbn}${key}`);
+            const json = await response.json();
+            return parseBooks(json);
+        }
+        catch (err) {
+            throw Error(err);
+        }
     };
 
     const searchTitle = async(title: string) => {
 
-        const response = await fetch(`${URI}+intitle:${title.replace(/\s/g, "%20")}&startIndex=0&maxResults=5`);
-        const json = await response.json();
-        return parseBooks(json);
+        try {
+            const response = await fetch(`${URI}+intitle:${title.replace(/\s/g, "%20")}&startIndex=0&maxResults=5`);
+            const json = await response.json();
+            return parseBooks(json);
+        }
+        catch (err) {
+            console.log(err);
+            throw Error(err);
+        }
     };
 
     const parseBooks = (books: any) => {
         console.log(books);
         const results: Book[] = [];
 
-        books.items.forEach((book: { volumeInfo: any; id: string; saleInfo: any}) => {
+        if (books.totalItems === 0) {
+            return [];
+        }
+
+        books.items.forEach((book: { volumeInfo: any; id: string; saleInfo: any; }) => {
             const volume = book.volumeInfo;
             var cover;
 

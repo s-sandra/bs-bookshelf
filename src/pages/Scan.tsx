@@ -37,8 +37,7 @@ const Scan: React.FC = () => {
     .then(async code => {
       setISBN(code);
       const bookResults = await searchISBN(code);
-      isEmpty(bookResults);
-      setBooks(bookResults);
+      setResults(bookResults);
     })
     .catch(err => {
         setError(err);
@@ -48,7 +47,9 @@ const Scan: React.FC = () => {
 
   const isEmpty = (results: Book[]) => {
     if (results.length === 0) {
-      setError('Your book could not be found');
+      setError(`We couldn't find books with ${isbn ? `ISBN ${isbn}` : `the title "${bookTitle}."`}`);
+      setISBN('');
+      setBookTitle('');
     }
   }
 
@@ -59,8 +60,7 @@ const Scan: React.FC = () => {
 
     try {
       const bookResults = await searchTitle(title);
-      isEmpty(bookResults);
-      setBooks(bookResults);
+      setResults(bookResults);
     }
     catch (err) {
       setError('Something went wrong while searching for your book');
@@ -68,10 +68,16 @@ const Scan: React.FC = () => {
   }
 
 
-  const clearISBN = () => {
+  const clear = () => {
     setISBN('');
     setError('');
   };
+
+
+  const setResults = (results: Book[]) => {
+    isEmpty(results);
+    setBooks(results);
+  }
 
 
   return (
@@ -99,11 +105,11 @@ const Scan: React.FC = () => {
 
       <IonAlert 
           isOpen={!!error}
-          message={'Oops! ' + error + '. Try our Android app or search by book title.'}
+          message={'Oops! ' + error}
           buttons={[
             {
               text: 'close',
-              handler: clearISBN
+              handler: clear
             },
             {
               text: 'scan again', 
@@ -123,7 +129,7 @@ const Scan: React.FC = () => {
               </IonButton>
             </IonChip>
         }
-        { (isbn || books ) &&
+        { (isbn || books.length > 0 ) &&
           <IonGrid fixed>
             { isbn && 
               <IonRow class='ion-text-center'>
@@ -132,7 +138,7 @@ const Scan: React.FC = () => {
                 </IonCol>
               </IonRow>
             }
-            { books && 
+            { books.length > 0 && 
               <IonRow>
                 { books.map(book => {   
                     return (
