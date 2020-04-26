@@ -5,3 +5,8 @@ ion-content ion-toolbar {
 ion-title {
   font-size: 40px;
 }
+
+ion-card ion-chip {
+  width: 128px;
+  height: 164px;
+} 

@@ -9,34 +9,42 @@ import { IonContent,
   IonRow, 
   IonCol } from '@ionic/react';
 import './LogIn.css';
+
 import { useFirebase } from '../hooks/useFirebase';
+import * as firebase from 'firebase';
+import { useAuthState } from 'react-firebase-hooks/auth';
+
 
 const LogIn: React.FC = () => {
+  const { googleSignIn, googleSignOut } = useFirebase();
+  const [ user ] = useAuthState(firebase.auth());
+
   return (
     <IonPage>
 
       <IonHeader>
-        <IonToolbar color="primary">
-          <IonTitle class="ion-text-center ion-text-uppercase banner ion-margin-bottom">Barcode Scan</IonTitle>
+        <IonToolbar color='primary'>
+          <IonTitle class='ion-text-center ion-text-uppercase banner ion-margin-bottom'>Barcode Scan</IonTitle>
         </IonToolbar>
       </IonHeader>
 
       <IonContent>
         <IonGrid>
-          <IonRow class="ion-justify-content-center">
-            <IonCol size="xs">
-              <IonTitle color="primary" class="under banner">Shopper</IonTitle>
+          <IonRow class='ion-justify-content-center'>
+            <IonCol size='xs'>
+              <IonTitle color='primary' class='under banner'>Bookshelf</IonTitle>
             </IonCol>
           </IonRow>
-          <IonRow class="ion-justify-content-center ion-text-center">
-            <IonCol size="xs">
-              <h3>Search for Products Online</h3>
-              <h4 color="primary">by Name or Barcode</h4>
+          <IonRow class='ion-justify-content-center ion-text-center'>
+            <IonCol size='xs'>
+              <h3>Search for Google Books</h3>
+              <h4 color='primary'>by Name or ISBN</h4>
             </IonCol>
           </IonRow>
-          <IonRow class="ion-justify-content-center">
-            <IonCol size="xs">
-              <IonButton color="primary" href="/scan">Sign In With Google</IonButton>
+          <IonRow class='ion-justify-content-center'>
+            <IonCol size='xs'>
+              { !user && <IonButton color='primary' onClick={googleSignIn}>Sign In With Google</IonButton>}
+              { user && <IonButton color='primary' onClick={googleSignOut}>Sign Out From Google</IonButton>}
             </IonCol>
           </IonRow>
       </IonGrid>

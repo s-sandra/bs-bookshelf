@@ -14,7 +14,6 @@ import {
 import { IonReactRouter } from '@ionic/react-router';
 import Scan from './pages/Scan';
 import LogIn from './pages/LogIn';
-import Products from './pages/Products';
 
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { environment } from './environment/environment';
@@ -51,24 +50,23 @@ const App: React.FC = () => {
       <IonReactRouter>
         <IonTabs>
           <IonRouterOutlet>
-            <Route path="/scan" component={Scan} exact={true} />
-            <Route path="/login" component={LogIn} exact={true} />
-            <Route path="/products" component={Products} exact={true} />
-            <Route path="/logout" render={() => <Redirect to="/login" />} exact={true}/>
-            <Route path="/" render={() => <Redirect to="/login" />} exact={true} />
+            <Route path='/scan' component={Scan} exact={true} />
+            <Route path='/login' component={LogIn} exact={true} />
+            <Route path='/logout' render={() => <Redirect to='/login' />} exact={true}/>
+            <Route path='/' render={() => <Redirect to='/login' />} exact={true} />
           </IonRouterOutlet>
-          <IonTabBar slot="top" color="primary">
-            <IonTabButton tab="Scan" href="/scan">
+          <IonTabBar slot='top' color='primary'>
+            <IonTabButton tab='Scan' href='/scan'>
               <IonLabel>Scan</IonLabel>
             </IonTabButton>}
-            <IonTabButton tab="LogOut" onClick={user ? googleSignOut : googleSignIn} href="/login">
+            <IonTabButton tab='LogOut' onClick={user ? googleSignOut : googleSignIn} href='/login'>
               <IonLabel>{user ? 'Sign Out' : 'Sign In'}</IonLabel>
             </IonTabButton>
             { user && 
-                <IonTabButton tab="LogOut" href="/">
+                <IonTabButton tab='LogOut' href='/'>
                   <IonChip>
                     <IonAvatar>
-                      <img src={user.photoURL!} />
+                      <img src={user.photoURL!} alt='Google avatar'/>
                     </IonAvatar>
                   </IonChip>
                 </IonTabButton>
