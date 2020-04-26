@@ -22,7 +22,7 @@ export function useGoogleBooks() {
         console.log(books);
         const results: Book[] = [];
 
-        books.items.map((book: { volumeInfo: any; id: string; saleInfo: any}) => {
+        books.items.forEach((book: { volumeInfo: any; id: string; saleInfo: any}) => {
             const volume = book.volumeInfo;
             var cover;
 
