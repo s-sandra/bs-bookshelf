@@ -57,9 +57,14 @@ const Scan: React.FC = () => {
       return;
     }
 
-    const bookResults = await searchTitle(title);
-    isEmpty(bookResults);
-    setBooks(bookResults);
+    try {
+      const bookResults = await searchTitle(title);
+      isEmpty(bookResults);
+      setBooks(bookResults);
+    }
+    catch (err) {
+      setError('Something went wrong while searching for your book');
+    }
   }
 
 
@@ -84,8 +89,9 @@ const Scan: React.FC = () => {
                     placeholder='search by book title' 
                     onIonChange={searchPhrase => setBookTitle(searchPhrase.detail.value!)}
                 />
-                <IonButton slot='start' onClick={() => {search(bookTitle)}}>
-                  <IonIcon icon={searchSharp}/>
+                <IonIcon slot='start' icon={searchSharp}/>
+                <IonButton slot='end' onClick={() => {search(bookTitle)}}>
+                  Go
                 </IonButton>
               </IonItem>
           </IonToolbar>
@@ -117,32 +123,32 @@ const Scan: React.FC = () => {
               </IonButton>
             </IonChip>
         }
-        {(isbn || books) &&
-        <IonGrid fixed>
-          { isbn && 
-            <IonRow class='ion-justify-content-center'>
-              <IonCol>
-                  <p>ISBN {isbn}</p>
-              </IonCol>
-            </IonRow>
-          }
-          { books && 
-            <IonRow>
-              { books.map(book => {   
-                  return (
-                    <React.Fragment key={book.id}>
-                      <IonCol size='auto'>
-                        <BookResult book={book}/>
-                      </IonCol>
-                    </React.Fragment>
-                  ) 
-                
-                })
-              }
-            </IonRow>
-          }
-        </IonGrid>
-      }
+        { (isbn || books ) &&
+          <IonGrid fixed>
+            { isbn && 
+              <IonRow class='ion-text-center'>
+                <IonCol>
+                    <h1>ISBN {bookTitle}</h1>
+                </IonCol>
+              </IonRow>
+            }
+            { books && 
+              <IonRow>
+                { books.map(book => {   
+                    return (
+                      <React.Fragment key={book.id}>
+                        <IonCol size='auto'>
+                          <BookResult book={book}/>
+                        </IonCol>
+                      </React.Fragment>
+                    ) 
+                  
+                  })
+                }
+              </IonRow>
+            }
+          </IonGrid>
+        }
       </IonContent>
 
       <IonFab vertical="bottom" horizontal="start" slot="fixed">

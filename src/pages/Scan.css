@@ -6,6 +6,10 @@ ion-title {
   font-size: 40px;
 }
 
+h1 {
+  color:#1b6d1f;
+}
+
 ion-grid ion-card {
   width: 20em;
 }
