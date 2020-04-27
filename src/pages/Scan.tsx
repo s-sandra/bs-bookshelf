@@ -32,26 +32,48 @@ const Scan: React.FC = () => {
   const [ bookTitle, setBookTitle ] = useState<string>('');
   const [ books, setBooks ] = useState<Book[]>([]);
 
-  const scan = () => {
-    scanBarcode()
-    .then(async code => {
-      const bookResults = await searchISBN(code);
+  /**
+   * Scan book barcode and query ISBN from Google Books.
+   */
+  const scan = async() => {
+    clear();
+    try {
+      const code = await scanBarcode();  // get barcode text
+
+      // if no barcode scanned
+      if (code.length === 0) {
+        return;
+      }
+
+      const bookResults = await searchISBN(code);  // get API response
+
+      // change state variables
       setISBN(code);
       setResults(bookResults);
-    })
-    .catch(err => {
-        setError(err);
-      }
-    );
+    }
+    catch (err) {
+      console.error(err);
+      setError(err);
+    }
   };
 
+  /**
+   * Resets state variables if no books found.
+   * @param results - list of books from API.
+   */
   const isEmpty = (results: Book[]) => {
+    // no results from Google Books
     if (results.length === 0) {
-      setError(`We couldn't find books with ${bookTitle ? `the title "${bookTitle}."` : `that ISBN.`}`);
+      setError(`We couldn't find that book.`);
     }
-  }
+  };
 
+  /**
+   * Search Google Books by book title.
+   * @param title - search phrase.
+   */
   const search = async(title: string | undefined) => {
+    // if no search phrase
     if (!title) {
       return;
     }
@@ -60,15 +82,17 @@ const Scan: React.FC = () => {
     setError('');
 
     try {
-      const bookResults = await searchTitle(title);
-      setResults(bookResults);
+      const bookResults = await searchTitle(title);  // fetch response from API.
+      setResults(bookResults);  // update state variables
     }
     catch (err) {
       setError('Something went wrong while searching for your book');
     }
   }
 
-
+  /**
+   * Reset all state variables to default.
+   */
   const clear = () => {
     setISBN('');
     setBookTitle('');
@@ -76,8 +100,13 @@ const Scan: React.FC = () => {
   };
 
 
+  /**
+   * Sets state variables according to response from
+   * the Google Books API.
+   * @param results - the list of books from API.
+   */
   const setResults = (results: Book[]) => {
-    isEmpty(results);
+    isEmpty(results);   // sets state variables to default if no results.
     setBooks(results);
   }
 

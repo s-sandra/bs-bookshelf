@@ -60,8 +60,7 @@ const LogIn: React.FC = () => {
                 Sign Out From Google</IonButton>}
             </IonCol>
           </IonRow>
-      </IonGrid>
-
+        </IonGrid>
       </IonContent>
     </IonPage>
   );

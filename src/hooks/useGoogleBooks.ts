@@ -4,10 +4,11 @@ export function useGoogleBooks() {
 
     const URI = 'https://www.googleapis.com/books/v1/volumes?q=search';
     const key = `&key=${environment.booksApiConfig.browserKey}`;
+    const pagination = `&startIndex=0&maxResults=5`;  // only want 5 book results
 
     const searchISBN = async(isbn: string) => {
         try {
-            const response = await fetch(`${URI}+isbn:${isbn}${key}`);
+            const response = await fetch(`${URI}+isbn:${isbn}${key}${pagination}`);
             const json = await response.json();
             return parseBooks(json);
         }
@@ -20,7 +21,7 @@ export function useGoogleBooks() {
     const searchTitle = async(title: string) => {
 
         try {
-            const response = await fetch(`${URI}+intitle:${title.replace(/\s/g, "%20")}&startIndex=0&maxResults=5`);
+            const response = await fetch(`${URI}+intitle:${title.replace(/\s/g, "%20")}${pagination}`);
             const json = await response.json();
             return parseBooks(json);
         }
@@ -34,6 +35,7 @@ export function useGoogleBooks() {
         console.log(books);
         const results: Book[] = [];
 
+        // book not found in API
         if (books.totalItems === 0) {
             return [];
         }
@@ -42,9 +44,11 @@ export function useGoogleBooks() {
             const volume = book.volumeInfo;
             var cover;
 
+            // book has a cover image
             if (volume.imageLinks) {
                 cover = volume.imageLinks.thumbnail;
             }
+            
             const result = {
                 id: book.id,
                 title: volume.title,
