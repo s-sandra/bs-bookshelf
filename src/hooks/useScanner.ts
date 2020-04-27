@@ -7,8 +7,15 @@ export function useScanner () {
         if (isPlatform('desktop')) {
             throw new Error('Barcode scanning is not available on desktop. Try our Android app or search by book title.');
         }
-        const data = await BarcodeScanner.scan();
-        return data.text;
+        try {
+            const data = await BarcodeScanner.scan();
+            return data.text;
+        }
+        catch (err) {
+            console.error(err);
+            throw new Error('Could not read barcode.');
+        }
+        
     };
     return { scanBarcode };
 };

@@ -27,16 +27,16 @@ const Scan: React.FC = () => {
   const { scanBarcode } = useScanner();
   const { searchISBN, searchTitle } = useGoogleBooks();
 
-  const [ isbn, setISBN ] = useState<string>();
-  const [ error, setError ] = useState<string>();
-  const [ bookTitle, setBookTitle ] = useState<string>();
+  const [ isbn, setISBN ] = useState<string>('');
+  const [ error, setError ] = useState<string>('');
+  const [ bookTitle, setBookTitle ] = useState<string>('');
   const [ books, setBooks ] = useState<Book[]>([]);
 
   const scan = () => {
     scanBarcode()
     .then(async code => {
-      setISBN(code);
       const bookResults = await searchISBN(code);
+      setISBN(code);
       setResults(bookResults);
     })
     .catch(err => {
@@ -47,9 +47,7 @@ const Scan: React.FC = () => {
 
   const isEmpty = (results: Book[]) => {
     if (results.length === 0) {
-      setError(`We couldn't find books with ${isbn ? `ISBN ${isbn}` : `the title "${bookTitle}."`}`);
-      setISBN('');
-      setBookTitle('');
+      setError(`We couldn't find books with ${bookTitle ? `the title "${bookTitle}."` : `that ISBN.`}`);
     }
   }
 
@@ -57,6 +55,9 @@ const Scan: React.FC = () => {
     if (!title) {
       return;
     }
+
+    setISBN('');
+    setError('');
 
     try {
       const bookResults = await searchTitle(title);
@@ -70,6 +71,7 @@ const Scan: React.FC = () => {
 
   const clear = () => {
     setISBN('');
+    setBookTitle('');
     setError('');
   };
 
@@ -134,7 +136,7 @@ const Scan: React.FC = () => {
             { isbn && 
               <IonRow class='ion-text-center'>
                 <IonCol>
-                    <h1>ISBN {bookTitle}</h1>
+                    <h1>ISBN {isbn}</h1>
                 </IonCol>
               </IonRow>
             }

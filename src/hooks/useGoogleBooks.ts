@@ -12,6 +12,7 @@ export function useGoogleBooks() {
             return parseBooks(json);
         }
         catch (err) {
+            console.error(err);
             throw Error(err);
         }
     };
@@ -24,7 +25,7 @@ export function useGoogleBooks() {
             return parseBooks(json);
         }
         catch (err) {
-            console.log(err);
+            console.error(err);
             throw Error(err);
         }
     };
