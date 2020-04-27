@@ -27,4 +27,4 @@ export function useFirebase() {
       googleSignIn, 
       googleSignOut 
     };
-};
+}

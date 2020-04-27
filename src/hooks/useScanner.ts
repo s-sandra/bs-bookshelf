@@ -18,5 +18,5 @@ export function useScanner () {
         
     };
     return { scanBarcode };
-};
+}
 

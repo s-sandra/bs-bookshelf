@@ -20,7 +20,7 @@ const Rating: React.FC<{
     
     return (  
         <IonBadge>
-            {stars.map(star => star)}
+            {stars.map(icon => icon)}
         </IonBadge>
     );
     

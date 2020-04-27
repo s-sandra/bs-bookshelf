@@ -19,9 +19,6 @@ ion-grid ion-card {
   flex-flow: column;
   justify-content: center;
   align-items: center;
-}
-
-#instruction {
   height: 100%;
 }
 
