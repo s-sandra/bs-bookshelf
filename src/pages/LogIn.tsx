@@ -18,7 +18,7 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 
 const LogIn: React.FC = () => {
   const { googleSignIn, googleSignOut } = useFirebase();
-  const [ user, loading ] = useAuthState(firebase.auth());
+  const [ user, loading, error ] = useAuthState(firebase.auth());
 
   return (
     <IonPage>
@@ -31,6 +31,14 @@ const LogIn: React.FC = () => {
         color='light'
       />
 
+      <IonToast
+        isOpen={error? true : false}
+        position='top'
+        message={`Unable to sign ${user ? 'out' : 'in'}.`}
+        duration={3000}
+        color='warning'
+      />
+
       <IonContent>
         <IonGrid>
           <IonRow class='banner padding-top'>
@@ -39,7 +47,7 @@ const LogIn: React.FC = () => {
               <IonTitle class='ion-text-center'>Barcode Scan</IonTitle>
             </IonCol>
           </IonRow>
-          <IonRow class='ion-justify-content-center ion-margin-bottom'>
+          <IonRow color='primary' class='ion-justify-content-center ion-margin-bottom'>
             <IonCol size='xs'>
               <IonTitle color='primary'>Bookshelf</IonTitle>
             </IonCol>
