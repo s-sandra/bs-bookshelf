@@ -7,7 +7,7 @@ ion-title {
 }
 
 h1 {
-  color:#1b6d1f;
+  color: var(--ion-color-primary);
 }
 
 ion-grid ion-card {
@@ -22,7 +22,8 @@ ion-grid ion-card {
   height: 100%;
 }
 
-#instruction ion-icon {
+#instruction ion-icon,
+ion-chip ion-icon {
   width: 100%;
   font-size: 10em;
   color: grey;

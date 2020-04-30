@@ -7,6 +7,10 @@ export function useScanner () {
         if (isPlatform('desktop')) {
             throw new Error('Barcode scanning is not available on desktop. Try our Android app or search by book title.');
         }
+        else if (isPlatform('mobileweb')) {
+            throw new Error('Barcode scanning is not available in the browser. Try our Android app or search by book title.');
+        }
+        
         try {
             const data = await BarcodeScanner.scan();
             return data.text;
