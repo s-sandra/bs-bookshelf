@@ -6,8 +6,7 @@ import { IonContent,
   IonGrid, 
   IonRow, 
   IonCol,
-  IonIcon, 
-  IonToast} from '@ionic/react';
+  IonIcon } from '@ionic/react';
 import './LogIn.css';
 import { logoGoogle, book } from 'ionicons/icons';
 

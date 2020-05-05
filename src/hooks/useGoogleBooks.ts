@@ -1,14 +1,15 @@
 import { environment } from '../environment/environment';
+import * as firebase from 'firebase';
 
 export function useGoogleBooks() {
 
-    const URI = 'https://www.googleapis.com/books/v1/volumes?q=search';
+    const URI = 'https://www.googleapis.com/books/v1/';
     const key = `&key=${environment.booksApiConfig.browserKey}`;
     const pagination = `&startIndex=0&maxResults=5`;  // only want 5 book results
 
     const searchISBN = async(isbn: string) => {
         try {
-            const response = await fetch(`${URI}+isbn:${isbn}${key}${pagination}`);
+            const response = await fetch(`${URI}volumes?q=search+isbn:${isbn}${key}${pagination}`);
             const json = await response.json();
             return parseBooks(json);
         }
@@ -21,7 +22,7 @@ export function useGoogleBooks() {
     const searchTitle = async(title: string) => {
 
         try {
-            const response = await fetch(`${URI}+intitle:${title.replace(/\s/g, "%20")}${pagination}`);
+            const response = await fetch(`${URI}volumes?q=search+intitle:${title.replace(/\s/g, "%20")}${pagination}`);
             const json = await response.json();
             return parseBooks(json);
         }
@@ -30,6 +31,35 @@ export function useGoogleBooks() {
             throw Error(err);
         }
     };
+
+    /**
+     * Get all books in user's 'Favorite' Google bookshelf (id=0).
+     */
+    const getBookshelf = async() => {
+
+        try {
+            const result = await firebase.auth().getRedirectResult();
+            if (!result.credential) {
+                throw Error('Credentials not available.');
+            }
+
+            const credential = result.credential as firebase.auth.OAuthCredential;
+            if (!credential.accessToken) {
+                throw Error('Permission not given to view library.');
+            }
+
+            const header = {
+                headers: { 'Authorization' : `Bearer ${credential.accessToken}` }
+            };
+            const response = await fetch(`${URI}mylibrary/bookshelves/0/volumes?${key}`, header);
+            const json = await response.json();
+            return parseBooks(json);
+        }
+        catch (err) {
+            console.error(err);
+            throw Error(err);
+        }
+    }
 
     const parseBooks = (books: any) => {
         console.log(books);
@@ -68,6 +98,7 @@ export function useGoogleBooks() {
     return { 
         searchISBN, 
         searchTitle,
+        getBookshelf
     };
 }
 

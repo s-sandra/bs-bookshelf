@@ -113,7 +113,6 @@ const Scan: React.FC = () => {
 
   return (
     <IonPage>
-
       <IonHeader>
         <IonToolbar color='primary'>
             <IonTitle>
@@ -135,19 +134,19 @@ const Scan: React.FC = () => {
       </IonHeader>
 
       <IonAlert 
-          isOpen={!!error}
-          message={'Oops! ' + error}
-          buttons={[
-            {
-              text: 'close',
-              handler: clear
-            },
-            {
-              text: 'scan again', 
-              handler: scan
-            }
-          ]}
-        />
+        isOpen={!!error}
+        message={'Oops! ' + error}
+        buttons={[
+          {
+            text: 'close',
+            handler: clear
+          },
+          {
+            text: 'scan again', 
+            handler: scan
+          }
+        ]}
+      />
 
       <IonContent class='ion-padding'>
 
