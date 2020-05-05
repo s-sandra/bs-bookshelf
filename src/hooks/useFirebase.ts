@@ -4,7 +4,7 @@ export function useFirebase() {
     var provider = new firebase.auth.GoogleAuthProvider();
 
     // ask permission to access user books
-    // provider.addScope('https://www.googleapis.com/auth/books');
+    provider.addScope('https://www.googleapis.com/auth/books');
     const googleSignIn = async() => {
         try {
             await firebase.auth().signInWithRedirect(provider);

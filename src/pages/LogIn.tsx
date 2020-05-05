@@ -14,31 +14,16 @@ import { logoGoogle, book } from 'ionicons/icons';
 import { useFirebase } from '../hooks/useFirebase';
 import * as firebase from 'firebase';
 import { useAuthState } from 'react-firebase-hooks/auth';
+import UserToast from '../components/UserToast';
 
 
 const LogIn: React.FC = () => {
   const { googleSignIn, googleSignOut } = useFirebase();
-  const [ user, loading, error ] = useAuthState(firebase.auth());
+  const [ user ] = useAuthState(firebase.auth());
 
   return (
     <IonPage>
-
-      <IonToast
-        isOpen={loading}
-        position='top'
-        message='Signing you in...'
-        duration={3000}
-        color='light'
-      />
-
-      <IonToast
-        isOpen={error? true : false}
-        position='top'
-        message={`Unable to sign ${user ? 'out' : 'in'}.`}
-        duration={3000}
-        color='warning'
-      />
-
+      <UserToast/>
       <IonContent>
         <IonGrid>
           <IonRow class='banner padding-top'>

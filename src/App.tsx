@@ -15,6 +15,7 @@ import {
 import { IonReactRouter } from '@ionic/react-router';
 import Scan from './pages/Scan';
 import LogIn from './pages/LogIn';
+import Bookshelf from './pages/Bookshelf';
 
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { environment } from './environment/environment';
@@ -38,7 +39,7 @@ import '@ionic/react/css/display.css';
 
 /* Theme variables */
 import './theme/variables.css';
-import { scan, logoGoogle } from 'ionicons/icons';
+import { scan, logoGoogle, book } from 'ionicons/icons';
 
 firebase.initializeApp(environment.firebaseConfig);
 
@@ -52,6 +53,7 @@ const App: React.FC = () => {
           <IonRouterOutlet>
             <Route path='/scan' component={Scan} exact={true} />
             <Route path='/login' component={LogIn} exact={true} />
+            <Route path='/my-bookshelf' component={Bookshelf} exact={true} />
             <Route path='/logout' render={() => <Redirect to='/login' />} exact={true}/>
             <Route path='/' render={() => <Redirect to='/login' />} exact={true} />
           </IonRouterOutlet>
@@ -59,10 +61,14 @@ const App: React.FC = () => {
             <IonTabButton tab='Scan' href='/scan'>
               <IonIcon icon={scan}/>
               <IonLabel>Scan</IonLabel>
-            </IonTabButton>}
+            </IonTabButton>
             <IonTabButton tab='LogOut' href='/login'>
               <IonIcon icon={logoGoogle}/>
               <IonLabel>{user ? 'Sign Out' : 'Sign In'}</IonLabel>
+            </IonTabButton>
+            <IonTabButton tab='My Bookshelf' href='/my-bookshelf'>
+              <IonIcon icon={book}/>
+              <IonLabel>My Bookshelf</IonLabel>
             </IonTabButton>
             { user && 
                 <IonTabButton tab='LogOut' href='/'>
