@@ -21,7 +21,7 @@ import { useGoogleBooks, Book } from '../hooks/useGoogleBooks';
 import * as firebase from 'firebase';
 import UserToast from '../components/UserToast';
 import BookResult from '../components/BookResult';
-import { addCircleOutline } from 'ionicons/icons';
+import { addCircleOutline, logInOutline, logoGoogle } from 'ionicons/icons';
 import { Redirect } from 'react-router';
 
 
@@ -32,25 +32,22 @@ const Bookshelf: React.FC = () => {
     const [ books, setBooks ] = useState<Book[]>([]);
     const [ error, setError ] = useState<boolean>(false);
 
-
-    if (!user && !loading) {
-        googleSignIn();
-    }
-
     useEffect(() => {
-        getBookshelf().then(bookResults => setBooks(bookResults))
-        .catch( err => {
-                console.error(`Can't show bookshelf books.`, err);
-                setError(true);
-            }
-        );
+        if (user) {
+            getBookshelf().then(bookResults => setBooks(bookResults))
+            .catch( err => {
+                    console.error(`Can't show bookshelf books.`, err);
+                    setError(true);
+                }
+            );
+        }
     }, [user]);
 
     return (
         <IonPage>
             <UserToast/>
             <IonAlert 
-                isOpen={error}
+                isOpen={error && !loading}
                 message={'Oops! An error occurred while retrieving your books.'}
                 buttons={[
                     {
@@ -67,7 +64,7 @@ const Bookshelf: React.FC = () => {
                 </IonToolbar>
             </IonHeader>
             <IonContent class='ion-padding'>
-                { books.length === 0 &&
+                { user && books.length === 0 &&
                     <IonChip id='instruction' class='ionic-justify-center-content ionic-align-items-center'>
                     <IonIcon icon={addCircleOutline}/>
                     <IonRouterLink href='/scan'>
@@ -78,6 +75,14 @@ const Bookshelf: React.FC = () => {
                     </IonRouterLink>
                     </IonChip>
                 }
+                { !user && !loading && 
+                    <IonChip id='instruction' class='ionic-justify-center-content ionic-align-items-center'>
+                    <IonIcon icon={logInOutline}/>
+                    <IonButton onClick={googleSignIn}>
+                        Sign Into Google
+                    </IonButton>
+                </IonChip>
+                }
                 { books.length > 0 && 
                     <IonGrid fixed>
                         <IonRow>
@@ -85,7 +90,7 @@ const Bookshelf: React.FC = () => {
                                 return (
                                 <React.Fragment key={book.id}>
                                     <IonCol size='auto'>
-                                    <BookResult book={book}/>
+                                    <BookResult book={book} context='bookshelf'/>
                                     </IonCol>
                                 </React.Fragment>
                                 ) 

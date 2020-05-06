@@ -8,14 +8,17 @@ import { IonCard,
     IonImg,
     IonChip,
     IonLabel,
-    IonIcon } from '@ionic/react';
+    IonIcon, 
+    IonBadge,
+    IonItem} from '@ionic/react';
 
 import { Book } from '../hooks/useGoogleBooks';
 import  Rating  from './Rating';
-import { logoGoogle, logoGooglePlaystore, bookOutline } from 'ionicons/icons';
+import { logoGoogle, logoGooglePlaystore, bookOutline, addCircle, removeCircle } from 'ionicons/icons';
 
 const BookResult: React.FC<{
-    book: Book; 
+    book: Book;
+    context: 'search' | 'bookshelf';
 }> = (props) => {
     return (
         <IonCol>
@@ -34,14 +37,26 @@ const BookResult: React.FC<{
                         {props.book.date ? `(${props.book.date})` : ' No Date'}
                     </IonCardSubtitle>
                 </IonCardHeader>
-                <IonButton color='primary ion-margin' target='_blank' href={props.book.bookLink}>
-                    <IonIcon slot='start' icon={logoGoogle}/>View
-                </IonButton>
-                { props.book.buyLink && 
-                    <IonButton color='primary ion-margin' target='_blank' href={props.book.buyLink}>
-                        <IonIcon slot='start' icon={logoGooglePlaystore}/>Buy
+                <IonItem>
+                    { props.book.buyLink && 
+                        <IonButton fill='clear' size='large' target='_blank' href={props.book.buyLink}>
+                            <IonIcon slot='start' icon={logoGooglePlaystore}/>
+                        </IonButton>
+                    }
+                    <IonButton fill='clear' size='large' target='_blank' href={props.book.bookLink}>
+                        <IonIcon slot='start' icon={logoGoogle}/>
                     </IonButton>
-                }
+                    { props.context === 'search' && 
+                        <IonButton fill='clear' size='large'>
+                            <IonIcon slot='start' icon={addCircle}/>
+                        </IonButton>
+                    }
+                    { props.context === 'bookshelf' && 
+                        <IonButton fill='clear' size='large'>
+                            <IonIcon slot='start' icon={removeCircle}/>
+                        </IonButton>
+                    }
+                </IonItem>
             </IonCard>
         </IonCol>
     );
