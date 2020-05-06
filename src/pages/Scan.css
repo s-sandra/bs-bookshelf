@@ -4,6 +4,11 @@ ion-content ion-toolbar {
 
 ion-title {
   font-size: 40px;
+  padding-top: 15px;
+}
+
+ion-toolbar {
+  padding-bottom: 15px;
 }
 
 h1 {

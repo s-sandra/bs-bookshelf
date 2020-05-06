@@ -114,7 +114,7 @@ const Scan: React.FC = () => {
   return (
     <IonPage>
       <IonHeader>
-        <IonToolbar color='primary'>
+        <IonToolbar color='primary' class='ion-padding-top'>
             <IonTitle>
               <b>BS</b> BookShelf
               </IonTitle>
@@ -174,7 +174,7 @@ const Scan: React.FC = () => {
                     return (
                       <React.Fragment key={book.id}>
                         <IonCol size='auto'>
-                          <BookResult book={book}/>
+                          <BookResult book={book} context='search'/>
                         </IonCol>
                       </React.Fragment>
                     ) 
