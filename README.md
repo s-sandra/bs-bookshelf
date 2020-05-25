@@ -1,6 +1,6 @@
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=s-sandra_bs-bookshelf&metric=alert_status)](https://sonarcloud.io/dashboard?id=s-sandra_bs-bookshelf)
 # Barcode Scan Bookshelf
-This Ionic PWA can run on Android devices and on the web. It has been deployed to Firebase
+This Ionic PWA can run on Android devices and on desktop. It has been deployed to Firebase
 and can be accessed from [barcode-scan-shopper.web.app](https://barcode-scan-shopper.firebaseapp.com).
 It utlizes the native barcode scanner to allow users to scan a book's ISBN code and search 
 for that book in Google Books. 
