@@ -7,7 +7,7 @@ for that book in Google Books. An updated, Angular version of the application ex
 ## Finding Books
 Barcode scanning only works on an Android device, so a search by title feature is provided to conduct 
 a manual search. This is also useful in the event that the ISBN is not registered within Google Books, 
-or the barcode scanner does not work. BS Bookshelf returns up to five matching book results, including
+or the barcode scanner does not work. BS Bookshelf returns up to six matching book results, including
 the book's cover image, rating, author, publisher, date, Google book link and Google Playstore link,
 if available.
 
