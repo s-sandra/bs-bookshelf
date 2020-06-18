@@ -21,7 +21,7 @@ import { useGoogleBooks, Book } from '../hooks/useGoogleBooks';
 import * as firebase from 'firebase';
 import UserToast from '../components/UserToast';
 import BookResult from '../components/BookResult';
-import { addCircleOutline, logInOutline, logoGoogle } from 'ionicons/icons';
+import { addCircleOutline, logInOutline } from 'ionicons/icons';
 import { Redirect } from 'react-router';
 
 
@@ -41,7 +41,7 @@ const Bookshelf: React.FC = () => {
                 }
             );
         }
-    }, [user]);
+    }, []);
 
     return (
         <IonPage>

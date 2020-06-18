@@ -1,11 +1,14 @@
 import { environment } from '../environment/environment';
-import * as firebase from 'firebase';
+import { useFirebase } from './useFirebase';
+import { Plugins } from '@capacitor/core';
 
 export function useGoogleBooks() {
 
+    const { isExpired, googleSignOut } = useFirebase();
+    const { Storage } = Plugins;
     const URI = 'https://www.googleapis.com/books/v1/';
     const key = `&key=${environment.booksApiConfig.browserKey}`;
-    const pagination = `&startIndex=0&maxResults=5`;  // only want 5 book results
+    const pagination = `&startIndex=0&maxResults=6`;  // only want 6 book results
 
     const searchISBN = async(isbn: string) => {
         try {
@@ -37,19 +40,15 @@ export function useGoogleBooks() {
      */
     const getBookshelf = async() => {
 
+        if (await isExpired()) {
+            await googleSignOut();  // log out user if access token expired
+            throw Error('Please sign into Google.');
+        }
+
         try {
-            const result = await firebase.auth().getRedirectResult();
-            if (!result.credential) {
-                throw Error('Credentials not available.');
-            }
-
-            const credential = result.credential as firebase.auth.OAuthCredential;
-            if (!credential.accessToken) {
-                throw Error('Permission not given to view library.');
-            }
-
+            const { value }  = await Storage.get({key: 'token'});
             const header = {
-                headers: { 'Authorization' : `Bearer ${credential.accessToken}` }
+                headers: { 'Authorization' : `Bearer ${value}` }
             };
             const response = await fetch(`${URI}mylibrary/bookshelves/0/volumes?${key}`, header);
             const json = await response.json();
@@ -59,7 +58,49 @@ export function useGoogleBooks() {
             console.error(err);
             throw Error(err);
         }
-    }
+    };
+
+    const addBook = async(id: string) => {
+
+        if (await isExpired()) {
+            await googleSignOut();  // log out user if access token expired
+            throw Error('Please sign into Google.');
+        }
+
+        try {
+            const { value }  = await Storage.get({key: 'token'});
+            const header = {
+                method: 'POST',
+                headers: { 'Authorization' : `Bearer ${value}` }
+            };
+            await fetch(`${URI}mylibrary/bookshelves/0/addVolume?volumeId=${id}${key}`, header);
+        }
+        catch (err) {
+            console.error(err);
+            throw Error(err);
+        }
+    };
+
+    const removeBook = async(id: string) => {
+
+        if (await isExpired()) {
+            await googleSignOut();  // log out user if access token expired
+            throw Error('Please sign into Google.');
+        }
+
+        try {
+            const { value }  = await Storage.get({key: 'token'});
+            const header = {
+                method: 'POST',
+                headers: { 'Authorization' : `Bearer ${value}` }
+            };
+            await fetch(`${URI}mylibrary/bookshelves/0/removeVolume?volumeId=${id}${key}`, header);
+        }
+        catch (err) {
+            console.error(err);
+            throw Error(err);
+        }
+    };
 
     const parseBooks = (books: any) => {
         console.log(books);
@@ -73,10 +114,16 @@ export function useGoogleBooks() {
         books.items.forEach((book: { volumeInfo: any; id: string; saleInfo: any; }) => {
             const volume = book.volumeInfo;
             var cover;
+            var published;
 
             // book has a cover image
             if (volume.imageLinks) {
                 cover = volume.imageLinks.thumbnail;
+            }
+
+            if (volume.hasOwnProperty('publishedDate')) {
+                published = new Date(volume.publishedDate);
+                published = `${published.toLocaleString('default', { month: 'short' })} ${published.getFullYear()}`;
             }
             
             const result = {
@@ -87,7 +134,7 @@ export function useGoogleBooks() {
                 buyLink: (book.saleInfo.hasOwnProperty('buyLink') ? book.saleInfo.buyLink : undefined),
                 authors: (volume.hasOwnProperty('authors') ? volume.authors : undefined),
                 publisher: (volume.hasOwnProperty('publisher') ? volume.publisher : undefined),
-                date: (volume.hasOwnProperty('publishedDate') ? volume.publishedDate : undefined),
+                date: (published ? published : undefined),
                 image: (cover ? cover : undefined)
             }
             results.push(result);
@@ -98,7 +145,9 @@ export function useGoogleBooks() {
     return { 
         searchISBN, 
         searchTitle,
-        getBookshelf
+        getBookshelf,
+        addBook,
+        removeBook
     };
 }
 

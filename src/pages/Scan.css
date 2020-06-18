@@ -19,6 +19,10 @@ ion-grid ion-card {
   width: 20em;
 }
 
+book-result ion-chip {
+  height: 280px;
+}
+
 #instruction {
   display: flex;
   flex-flow: column;
@@ -27,7 +31,8 @@ ion-grid ion-card {
   height: 100%;
 }
 
-#instruction ion-icon {
+#instruction ion-icon,
+ion-chip ion-icon {
   width: 100%;
   font-size: 10em;
   color: grey;
@@ -36,7 +41,6 @@ ion-grid ion-card {
 
 ion-content ion-chip {
   display: block;
-  height: auto;
 }
 
 ion-chip ion-label {
